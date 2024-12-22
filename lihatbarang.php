@@ -1,10 +1,11 @@
 <?php
-include 'php/connection.php';
+include 'php/connection.php'; // Menghubungkan ke database
 
-// Untuk mengambil data dari tabel barang
-$sql = "SELECT kode_barang, nama, stock, harga FROM barang";
+// Query untuk mengambil data dari tabel barang
+$sql = "SELECT kode_barang, nama, stok, harga FROM barang";
 $result = $conn->query($sql);
 
+// Memeriksa apakah query berhasil
 if (!$result) {
     die("Query gagal: " . $conn->error);
 }
@@ -105,14 +106,14 @@ if (!$result) {
                 </thead>
                 <tbody>
                     <?php
-                    // Memeriksa
+                    // Memeriksa apakah ada hasil
                     if ($result->num_rows > 0) {
-                        // Menampilkan data
+                        // Menampilkan data setiap baris
                         while($row = $result->fetch_assoc()) {
                             echo "<tr>
                                     <td>" . $row["kode_barang"] . "</td>
                                     <td>" . $row["nama"] . "</td>
-                                    <td>" . $row["stok"] . "</td>
+                                    <td <td>" . $row["stok"] . "</td>
                                     <td>Rp " . number_format($row["harga"], 0, ',', '.') . "</td>
                                   </tr>";
                         }
