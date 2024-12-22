@@ -87,7 +87,7 @@ if (!$result) {
     <div class="navbar">
         <div>
             <a href="#">Lihat Barang</a>
-            <a href="#">Pesan Barang</a>
+            <a href="pesanbarang.php">Pesan Barang</a>
             <a href="#">Nota</a>
         </div>
         <button class="logout-button">Log Out</button>
