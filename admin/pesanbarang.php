@@ -24,84 +24,8 @@ if (!$result_history) {
     <title>History Pesan Barang</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #007bff;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 0 0 8px 8px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .navbar a:hover {
-            background-color: #0056b3;
-        }
-        .logout-button {
-            background-color: #dc3545; /* Merah untuk tombol logout */
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-weight: 700;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .logout-button:hover {
-            background-color: #c82333; /* Merah lebih gelap saat hover */
-        }
-        .dashboard-container {
-            padding: 20px;
-        }
-        .table-container {
-            margin-top: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ccc;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: 700;
-        }
-        .button-container {
-            margin-bottom: 20px;
-        }
-        .button-container a {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .button-container a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link href="../style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <div class="navbar">
@@ -113,16 +37,14 @@ if (!$result_history) {
         <button class="logout-button">Log Out</button>
     </div>
     <div class="dashboard-container">
-        <h1>Pesan Barang</h1>
-
+        <h1>History Pesan</h1>
         <div class="button-container">
             <a href="pesanbarang_tambah.php">Pesan Barang</a> <!-- Tombol untuk pesan barang -->
         </div>
 
-        <div class="table-container">
-            <h2>History Pesan</h2>
-            <table>
-                <thead>
+        <div class="table">
+            <table class="table table-striped table-hover">
+                <thead class="thead">
                     <tr>
                         <th>No Order</th>
                         <th>Tanggal Order</th>
@@ -137,7 +59,17 @@ if (!$result_history) {
                     <?php
                     if ($result_history->num_rows > 0) {
                         while($row = $result_history->fetch_assoc()) {
-                            $status = $row['status'] == 0 ? "Sedang Diproses" : "Selesai";
+                            // Mengubah status berdasarkan nilai
+                            if ($row['status'] == 0) {
+                                $status = "Sedang Diproses";
+                            } elseif ($row['status'] == 1) {
+                                $status = "Sedang Dikirim";
+                            } elseif ($row['status'] == 2) {
+                                $status = "Selesai";
+                            } else {
+                                $status = "Status Tidak Dikenal";
+                            }
+
                             echo "<tr>
                                     <td>{$row['no_order']}</td>
                                     <td>{$row['tanggal_order']}</td>
@@ -149,13 +81,17 @@ if (!$result_history) {
                                   </tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6'>Tidak ada data pesan.</td></tr>";
+                        echo "<tr><td colspan='7'>Tidak ada data pesan.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- Link to Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu 0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>
 </html>
 <?php
