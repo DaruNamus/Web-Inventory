@@ -2,7 +2,6 @@
 session_start();
 include 'connection.php';
 
-
 // Fungsi login
 if (isset($_POST['btn-login'])) {
     // Mengambil data dari form
@@ -10,21 +9,24 @@ if (isset($_POST['btn-login'])) {
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Query untuk memeriksa user di database
-    $query = "SELECT * FROM kepala_toko WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM supplier WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
-if ($result->num_rows > 0) {
-    // Data ditemukan, login berhasil
-    header("location:Admin/index.php");
-    // Anda bisa mengarahkan ke halaman lain atau melakukan tindakan lain di sini
-} else {
-    // Data tidak ditemukan, login gagal
-    header("location:index.php?pesan=gagal");
-}
+    if ($result->num_rows > 0) {
+        // Data ditemukan, login berhasil
+        $user = mysqli_fetch_assoc($result); // Ambil data pengguna
+        $_SESSION['kode_supplier'] = $user['kode_supplier']; // Simpan kode_supplier dalam sesi
+        $_SESSION['username'] = $user['username']; // Simpan username dalam sesi (opsional)
+
+        header("location:supplier/index.php");
+        exit(); // Pastikan untuk menghentikan eksekusi setelah redirect
+    } else {
+        // Data tidak ditemukan, login gagal
+        header("location:index.php?pesan=gagal");
+        exit(); // Pastikan untuk menghentikan eksekusi setelah redirect
+    }
 }
 ?>
-
-
 
 <html>
 <head>
@@ -33,6 +35,7 @@ if ($result->num_rows > 0) {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="login.css" rel="stylesheet">
     <style>
+        /* CSS untuk styling tombol login */
         .btn-login {
             display: inline-block;
             background-color: #4CAF50; /* Warna hijau */
@@ -57,12 +60,11 @@ if ($result->num_rows > 0) {
             transform: translateY(0); /* Mengembalikan posisi saat diklik */
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Mengurangi bayangan */
         }
-
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login Owner Toko</h2>
+        <h2>Login Supplier</h2>
         <form method="POST" action="">
             <div class="input-group">
                 <label for="username">Username</label>
@@ -74,7 +76,7 @@ if ($result->num_rows > 0) {
             </div>
             <button type="submit" name="btn-login" class="btn-login">Login</button>
         </form>
-        <a href="loginsupplier.php">Login sebagai Supplier</a>
+        <a href="index.php">Login sebagai Admin</a>
         <?php
         if (isset($_GET['pesan']) && $_GET['pesan'] == "gagal") {
             echo "<p style='color:red;'>Username atau Password salah!</p>";
