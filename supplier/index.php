@@ -85,12 +85,16 @@ if (isset($_POST['update_status'])) {
                             // Mengubah status berdasarkan nilai
                             if ($row['status'] == 0) {
                                 $status = "Sedang Diproses";
+                                $disabled = ""; // Aktifkan tombol
                             } elseif ($row['status'] == 1) {
                                 $status = "Sedang Dikirim";
+                                $disabled = "disabled"; // Nonaktifkan tombol
                             } elseif ($row['status'] == 2) {
                                 $status = "Selesai";
+                                $disabled = "disabled"; // Nonaktifkan tombol
                             } else {
-                                $status = "Status Tidak Dikenal ";
+                                $status = "Status Tidak Dikenal";
+                                $disabled = "disabled"; // Nonaktifkan tombol
                             }
 
                             echo "<tr>
@@ -104,7 +108,7 @@ if (isset($_POST['update_status'])) {
                                     <td>
                                         <form method='POST' style='display:inline;'>
                                             <input type='hidden' name='no_order' value='{$row['no_order']}'>
-                                            <button type='submit' name='update_status' class='btn btn-success'>Tandai Dikirim</button>
+                                            <button type='submit' name='update_status' class='btn btn-success' {$disabled}>Tandai Selesai</button>
                                         </form>
                                     </td>
                                   </tr>";
