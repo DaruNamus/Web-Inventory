@@ -1,20 +1,19 @@
 <?php
-include 'php/connection.php'; // Menghubungkan ke database
+include '../connection.php'; // Menghubungkan ke database
 
 $message = ""; // Variable untuk menyimpan pesan
 
 // Memproses form jika ada pengiriman data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $kode_barang = $_POST['kode_barang'];
-    $kode_supplier = $_POST['kode_supplier'];
+    $nama = $_POST['nama_barang'];
     $jumlah = $_POST['jumlah'];
-    $tanggal_order = date('Y-m-d H:i:s'); // Mengambil tanggal saat ini
+    $harga = $_POST['harga'];
 
-    // Query untuk menyimpan data pesan ke tabel order_barang
-    $sql_insert = "INSERT INTO order_barang (kode_supplier, kode_barang, tanggal_order, status, jumlah) VALUES ('$kode_supplier', '$kode_barang', '$tanggal_order', '0', '$jumlah')";
+    // Query untuk menyimpan data pesan ke tabel barang
+    $sql_insert = "INSERT INTO barang (nama, stok, harga) VALUES ('$nama', '$jumlah', '$harga')";
 
     if ($conn->query($sql_insert) === TRUE) {
-        $message = "Pesanan berhasil dibuat!";
+        $message = "Data Barang berhasil ditambah!";
     } else {
         $message = "Error: " . $conn->error;
     }
@@ -28,15 +27,6 @@ $result_barang = $conn->query($sql_barang);
 if (!$result_barang) {
     die("Query gagal: " . $conn->error);
 }
-
-// Query untuk mengambil data supplier
-$sql_supplier = "SELECT kode_supplier, nama_supplier FROM supplier";
-$result_supplier = $conn->query($sql_supplier);
-
-// Memeriksa apakah query berhasil
-if (!$result_supplier) {
-    die("Query gagal: " . $conn->error);
-}
 ?>
 
 <!DOCTYPE html>
@@ -44,9 +34,14 @@ if (!$result_supplier) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Pesanan</title>
+    <title>Tambah Barang</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+
+    <!-- Css to Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -71,7 +66,7 @@ if (!$result_supplier) {
             display: block;
             margin-bottom: 5px;
         }
-        select, input[type="number"] {
+        input[type="text"], input[type="number"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -93,36 +88,43 @@ if (!$result_supplier) {
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div>
+            <a href="index.php">Data Barang (Master)</a>
+            <a href="pesanbarang.php">Pesan Barang</a>
+            <a href="transaksi.php">Transaksi</a>
+            <a href="supplier.php">Data Supplier (Master)</a>
+        </div>
+        <a href="logout.php" class="logout-button">Logout</a>
+    </div>
+
+    <!-- Body -->
     <div class="container">
-        <h1>Buat Pesanan</h1>
+        <h1 class="fw-bold">Tambah Data Master Barang</h1>
         <div class="form-container">
             <?php if ($message): ?>
                 <div class="message"><?php echo $message; ?></div>
             <?php endif; ?>
             <form action="" method="POST">
-                <label for="kode_barang">Nama Barang:</label>
-                <select id="kode_barang" name="kode_barang" required>
-                    <option value="">Pilih Nama Barang</option>
-                    <?php while ($row = $result_barang->fetch_assoc()): ?>
-                        <option value="<?php echo $row['kode_barang']; ?>"><?php echo $row['nama']; ?></option>
-                    <?php endwhile; ?>
-                </select>
+                <label for="nama_barang">Nama Barang:</label>
+                <input class="form-control" type="text" id="nama_barang" name="nama_barang" required>
 
                 <label for="jumlah">Jumlah:</label>
-                <input type="number" id="jumlah" name="jumlah" required min="1">
+                <input class="form-control" type="number" id="jumlah" name="jumlah" required min="1">
+                
+                <label for="harga">Harga:</label>
+                <input class="form-control" type="number" id="harga" name="harga" required min="1">
 
-                <label for="kode_supplier">Nama Supplier:</label>
-                <select id="kode_supplier" name="kode_supplier" required>
-                    <option value="">Pilih Nama Supplier</option>
-                    <?php while ($row = $result_supplier->fetch_assoc()): ?>
-                        <option value="<?php echo $row['kode_supplier']; ?>"><?php echo $row['nama_supplier']; ?></option>
-                    <?php endwhile; ?>
-                </select>
-
-                <input type="submit" value="Pesan Barang">
+                <input type="submit" value="Tambah Barang">
+                <a href="index.php" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 <?php

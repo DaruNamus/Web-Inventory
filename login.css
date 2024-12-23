@@ -1,0 +1,77 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+.login-container h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+.login-container .input-group {
+    margin-bottom: 15px;
+}
+.login-container .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.login-container .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.login-container .input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+.login-container .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+.login-container .btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-login {
+    display: inline-block;
+    background-color: #4CAF50; /* Warna hijau */
+    color: white; /* Warna teks */
+    font-size: 16px; /* Ukuran font */
+    font-family: 'Roboto', sans-serif; /* Font keluarga */
+    padding: 10px 20px; /* Spasi dalam tombol */
+    border: none; /* Menghilangkan border */
+    border-radius: 5px; /* Membuat sudut melengkung */
+    cursor: pointer; /* Mengubah kursor jadi pointer */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    transition: all 0.3s ease; /* Animasi transisi */
+}       
+
+.btn-login:hover {
+    background-color: #45a049; /* Warna saat hover */
+    transform: translateY(-2px); /* Efek naik sedikit */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Perubahan bayangan */
+}
+
+.btn-login:active {
+    transform: translateY(0); /* Mengembalikan posisi saat diklik */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Mengurangi bayangan */
+}

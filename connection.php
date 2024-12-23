@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "agen_sosis_vista";
+$dbname = "lat_kasir_jksi";
 
 // Membuat koneksi ke database
 $conn = new mysqli($servername, $username, $password, $dbname);
