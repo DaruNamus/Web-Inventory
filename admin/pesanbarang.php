@@ -42,6 +42,24 @@ if (isset($_POST['update_status'])) {
         }
     }
 }
+
+// Proses penghapusan order
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['no_order'])) {
+    $no_order = $_GET['no_order'];
+
+    // Query untuk menghapus data order
+    $delete_query = "DELETE FROM orders WHERE no_order = ?";
+    $delete_stmt = $conn->prepare($delete_query);
+    $delete_stmt->bind_param("s", $no_order);
+
+    if ($delete_stmt->execute()) {
+        header("Location: pesanbarang.php?pesan=hapus_berhasil");
+    } else {
+        header("Location: pesanbarang.php?pesan=hapus_gagal");
+    }
+
+    $delete_stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,20 +76,22 @@ if (isset($_POST['update_status'])) {
 <body>
     <div class="navbar">
         <div>
-            <a href="index.php">Lihat Barang</a>
+            <a href="index.php">Data Barang</a>
             <a href="pesanbarang.php">Pesan Barang</a>
-            <a href="#">Nota</a>
+            <a href="transaksi.php">Transaksi</a>
+            <a href="supplier.php">Data Supplier</a>
         </div>
-        <button class="logout-button">Log Out</button>
+        <a href="logout.php" class="logout-button">Logout</a>
     </div>
+
     <div class="dashboard-container">
         <h1>History Pesan</h1>
         <div class="button-container">
-            <a href="pesanbarang_tambah.php">Pesan Barang</a> <!-- Tombol untuk pesan barang -->
+            <a href="pesanbarang_tambah.php" class="btn my-2 btn-primary">Pesan Barang</a> <!-- Tombol untuk pesan barang -->
         </div>
 
         <div class="table">
-            <table class="table table-striped table-hover">
+ <table class="table table-striped table-hover">
                 <thead class="thead">
                     <tr>
                         <th>No Order</th>
@@ -116,6 +136,7 @@ if (isset($_POST['update_status'])) {
                                             <input type='hidden' name='no_order' value='{$row['no_order']}'>
                                             <button type='submit' name='update_status' class='btn btn-success' {$disabled}>Tandai Selesai</button>
                                         </form>
+                                        <a href='pesanbarang.php?action=delete&no_order={$row['no_order']}' onclick='return confirm(\"Apakah Anda yakin ingin menghapus order ini?\");' class='btn btn-danger'>Hapus</a>
                                     </td>
                                   </tr>";
                         }

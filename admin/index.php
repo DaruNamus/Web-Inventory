@@ -18,6 +18,21 @@ if (isset($_GET['kode_barang'])) {
     $result = $conn->query($query);
     $barang = $result->fetch_assoc();
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama = $_POST['nama'];
+    $jumlah = $_POST['stok'];
+    $harga = $_POST['harga'];
+
+    // Query untuk menyimpan data pesan ke tabel barang
+    $sql_insert = "INSERT INTO barang (nama, stok, harga) VALUES ('$nama', '$jumlah', '$harga')";
+
+    if ($conn->query($sql_insert) === TRUE) {
+        $message = "Data Barang berhasil ditambah!";
+    } else {
+        $message = "Error: " . $conn->error;
+    }
+}
 ?> 
 
 <!DOCTYPE html>
@@ -37,9 +52,10 @@ if (isset($_GET['kode_barang'])) {
     <!-- Navbar -->
     <div class="navbar">
         <div>
-            <a href="index.php">Lihat Barang</a>
+            <a href="index.php">Data Barang</a>
             <a href="pesanbarang.php">Pesan Barang</a>
-            <a href="#">Nota</a>
+            <a href="transaksi.php">Transaksi</a>
+            <a href="supplier.php">Data Supplier</a>
         </div>
         <a href="logout.php" class="logout-button">Logout</a>
     </div>
@@ -47,9 +63,23 @@ if (isset($_GET['kode_barang'])) {
     <!-- Bagian Isi/Body -->
     <div class="dashboard-container">
         <h1 class="page-title">Dashboard Kepala Toko</h1>
-        <h2 class="mt-5 mb-2">Data (Master) Barang</h2>
+        <h2 class="mt-5 mb-2">Data Barang</h2>
         <button type="button" class="btn my-2 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Tambah Data Barang</button>
-        
+        <?php if (isset($_GET['pesan'])): ?>
+            <div class="alert alert-info">
+            <?php
+            if ($_GET['pesan'] == 'hapus_berhasil') {
+                echo "Barang berhasil dihapus.";
+            } elseif ($_GET['pesan'] == 'barang_sedang_diorder') {
+                echo "Barang tidak bisa dihapus karena sedang dalam pemesanan.";
+            } elseif ($_GET['pesan'] == 'kode_tidak_ada') {
+                echo "Kode barang tidak ditemukan.";
+            } elseif ($_GET['pesan'] == 'hapus_gagal') {
+                echo "Gagal menghapus barang.";
+            }
+                ?>
+            </div>
+        <?php endif; ?>
         <!-- Data di Table -->
         <div class="table">
             <table class="table table-striped table-hover">
@@ -86,8 +116,8 @@ if (isset($_GET['kode_barang'])) {
                     ?>
                 </tbody>
             </table>
-
         </div>
+
 
         <!-- Data Modal TAMBAH Barang -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,7 +128,7 @@ if (isset($_GET['kode_barang'])) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="barang_tambah.php" method="POST">
+                        <form action="index.php" method="POST">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama Barang</label>
                                 <input type="text" class="form-control" id="nama" name="nama" required>

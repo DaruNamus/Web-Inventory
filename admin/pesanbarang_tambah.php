@@ -47,6 +47,9 @@ if (!$result_supplier) {
     <title>Buat Pesanan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -93,6 +96,16 @@ if (!$result_supplier) {
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <div>
+            <a href="index.php">Data Barang</a>
+            <a href="pesanbarang.php">Pesan Barang</a>
+            <a href="transaksi.php">Transaksi</a>
+            <a href="supplier.php">Data Supplier</a>
+        </div>
+        <a href="logout.php" class="logout-button">Logout</a>
+    </div>
+
     <div class="container">
         <h1>Buat Pesanan</h1>
         <div class="form-container">
@@ -120,6 +133,7 @@ if (!$result_supplier) {
                 </select>
 
                 <input type="submit" value="Pesan Barang">
+                <a href="pesanbarang.php" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

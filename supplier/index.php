@@ -52,8 +52,8 @@ if (isset($_POST['update_status'])) {
 <body>
     <div class="navbar">
         <div>
-            <a href="#">Permintaan Restock</a>
-            <a href="#">Akun</a>
+            <a href="index.php">Permintaan Restock</a>
+            <a href="akun.php">Akun</a>
         </div>
         <div class="user-info">
             <span>Welcome, <?php echo $_SESSION['username']; ?></span> <!-- Menampilkan nama pengguna -->
@@ -108,7 +108,7 @@ if (isset($_POST['update_status'])) {
                                     <td>
                                         <form method='POST' style='display:inline;'>
                                             <input type='hidden' name='no_order' value='{$row['no_order']}'>
-                                            <button type='submit' name='update_status' class='btn btn-success' {$disabled}>Tandai Selesai</button>
+                                            <button type='submit' name='update_status' class='btn btn-success' {$disabled}>Kirim</button>
                                         </form>
                                     </td>
                                   </tr>";

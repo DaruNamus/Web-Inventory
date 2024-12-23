@@ -5,27 +5,20 @@ $message = ""; // Variable untuk menyimpan pesan
 
 // Memproses form jika ada pengiriman data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama = $_POST['nama_barang'];
-    $jumlah = $_POST['jumlah'];
-    $harga = $_POST['harga'];
+    $spp = $_POST['nama_supplier'];
+    $alamat = $_POST['alamat'];
+    $telp = $_POST['telp'];
+    $username = $_POST['username'];
+    $password = $_POST['password']; 
 
-    // Query untuk menyimpan data pesan ke tabel barang
-    $sql_insert = "INSERT INTO barang (nama, stok, harga) VALUES ('$nama', '$jumlah', '$harga')";
+    // Query untuk menyimpan data ke tabel supplier
+    $sql_insert = "INSERT INTO supplier (nama_supplier, alamat, no_telp, username, password) VALUES ('$spp', '$alamat', '$telp', '$username', '$password')";
 
     if ($conn->query($sql_insert) === TRUE) {
-        $message = "Data Barang berhasil ditambah!";
+        $message = "Data Supplier berhasil ditambah!";
     } else {
         $message = "Error: " . $conn->error;
     }
-}
-
-// Query untuk mengambil data barang
-$sql_barang = "SELECT kode_barang, nama FROM barang";
-$result_barang = $conn->query($sql_barang);
-
-// Memeriksa apakah query berhasil
-if (!$result_barang) {
-    die("Query gagal: " . $conn->error);
 }
 ?>
 
@@ -34,7 +27,7 @@ if (!$result_barang) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Barang</title>
+    <title>Tambah Supplier</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="../style.css" rel="stylesheet">
@@ -101,23 +94,31 @@ if (!$result_barang) {
 
     <!-- Body -->
     <div class="container">
-        <h1 class="fw-bold">Tambah Data Master Barang</h1>
+        <h1 class="fw-bold">Tambah Data Master Supplier</h1>
         <div class="form-container">
             <?php if ($message): ?>
                 <div class="message"><?php echo $message; ?></div>
             <?php endif; ?>
             <form action="" method="POST">
-                <label for="nama_barang">Nama Barang:</label>
-                <input class="form-control" type="text" id="nama_barang" name="nama_barang" required>
+                <label for="nama_supplier">Nama Supplier:</label>
+                <input class="form-control" type="text" id="nama_supplier" name="nama_supplier" required>
 
-                <label for="jumlah">Jumlah:</label>
-                <input class="form-control" type="number" id="jumlah" name="jumlah" required min="1">
+                <label for="alamat">Alamat:</label>
+                <input class="form-control" type="text" id="alamat" name="alamat" required>
                 
-                <label for="harga">Harga:</label>
-                <input class="form-control" type="number" id="harga" name="harga" required min="1">
+                <label for="telp">No. Telp:</label>
+                <input class="form-control" type="number" id="telp" name="telp" required>
 
-                <input type="submit" value="Tambah Barang">
-                <a href="index.php" class="btn btn-secondary">Kembali</a>
+                <label for="username">Username:</label>
+                <input class="form-control" type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input class="form-control" type="text" id="password" name="password" required>
+
+                <div class="button-bawah my-2">
+                    <input type="submit" value="Tambah Data" class="btn btn-primary ">
+                    <a href="supplier.php" class="btn btn-secondary">Kembali</a>
+                </div>
             </form>
         </div>
     </div>
@@ -129,4 +130,4 @@ if (!$result_barang) {
 </html>
 <?php
 $conn->close(); // Menutup koneksi database
-?>
+?> 
